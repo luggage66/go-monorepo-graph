@@ -1,0 +1,33 @@
+{{- define "SUBGRAPH" -}}
+    subgraph cluster_{{slugify .Name}} {
+        label = "{{.Name}}";
+        { rank = same; {{range .Dependencies}}"{{.}}" {{end}} }
+
+        // style
+        // TODO
+
+        // members
+        {{- range .Dependencies}}
+        "{{.}}"
+        {{- end}}
+    }
+{{end -}}
+
+digraph {
+    graph [nodesep=0.4, ranksep=1.5];
+    rankdir=LR;
+    compound=true;
+    node [shape=rectangle, style=filled, fillcolor=grey];
+    splines=ortho;
+
+    {{range . -}}
+    {{template "SUBGRAPH" .}}
+    {{end}}
+
+    {{- range . -}}
+    {{$projectName := .Name}}
+    {{- range .Dependencies}}
+    "{{$projectName}}" -> "{{.}}"
+    {{- end}}
+    {{- end}}
+}

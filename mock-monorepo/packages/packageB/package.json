@@ -1,0 +1,10 @@
+{
+    "name": "@my/packageB",
+    "scripts": {
+        "build": "build!",
+        "docker": "docker!"
+    },
+    "dependencies": {
+        "@my/packageC": "1.0.0"
+    }
+}
